@@ -1,13 +1,17 @@
 <?php
 header("Cache-Control: no-cache");
-$host = "localhost";
-$username = "----";
-$password = "----"; //setting this to --- for now
-$database = "----";
 
-$conn = new mysqli($servername, $username, $password,$dbname);
+
+$host = "localhost";
+$username = "xxxxxxxxxxxx";
+$password = "xxxxxxxxxxxx";
+$database = "xxxxxxxxxxxx";
+
+$conn = new mysqli($host, $username, $password, $database);
 
 if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-} 
+    die("Database connection error.");
+}
+
+$conn->set_charset("utf8mb4");
 ?>

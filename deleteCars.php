@@ -1,19 +1,25 @@
 <?php
-include "dbconn.php";
+$host = "localhost";
+$username = "xxxxxxxxxxxx";
+$password = "";
+$database = "cccccccccc";
 
-if (isset($_GET['car_id'])) {
-    $car_id = $_GET['car_id'];
+$conn = new mysqli($host, $username, $password, $database);
 
-    $sql = "DELETE FROM cars WHERE car_id = $car_id";
-    if ($conn->query($sql) === TRUE) {
-        echo "<p style='color: green;'>Car deleted successfully!</p>";
-    } else {
-        echo "<p style='color: red;'>Error deleting car: " . $conn->error . "</p>";
-    }
+if ($conn->connect_error) {
+    die("Connection failed.");
 }
+
+$car_id = $_GET['car_id'];
+$sql = "DELETE FROM cars WHERE car_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $car_id);
+$stmt->execute(); 
+$stmt->close();
 
 $conn->close();
 
-header("Location: notHertz.php"); 
+$message = "Delete attempt finished.";
+header("Location: notHertz.php?message=" . urlencode($message));
 exit;
 ?>
