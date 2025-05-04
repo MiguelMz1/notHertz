@@ -19,7 +19,7 @@ $stmt->close();
 
 $conn->close();
 
-$message = "Delete attempt finished.";
+$message = "Delete";
 header("Location: notHertz.php?message=" . urlencode($message));
 exit;
 ?>

@@ -16,7 +16,7 @@ $stmt->close();
 
 $conn->close();
 
-$message = "Delete attempt finished.";
+$message = "Delete";
 header("Location: categories.php?message=" . urlencode($message));
 exit();
 ?>

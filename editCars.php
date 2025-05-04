@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->close();
     $conn->close();
 
-    $message = "Update attempt finished.";
+    $message = "Updated";
     header("Location: notHertz.php?message=" . urlencode($message));
     exit();
 
