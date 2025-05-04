@@ -8,8 +8,6 @@ if (!isset($conn) || $conn->connect_error) {
 $error_message = '';
 $success_message = '';
 
-// --- Fetch data for dropdowns ---
-// Assume these queries work or handle errors minimally
 $customers = []; $cars_available = []; $employees = []; $locations = [];
 $result_cust = $conn->query("SELECT customer_id, first_name, last_name FROM customers ORDER BY last_name, first_name");
 if ($result_cust) { while ($row = $result_cust->fetch_assoc()) { $customers[] = $row; } $result_cust->free(); }
@@ -22,10 +20,7 @@ if ($result_emp) { while ($row = $result_emp->fetch_assoc()) { $employees[] = $r
 
 $result_loc = $conn->query("SELECT location_id, location_name FROM locations ORDER BY location_name");
 if ($result_loc) { while ($row = $result_loc->fetch_assoc()) { $locations[] = $row; } $result_loc->free(); }
-// --- End fetching dropdown data ---
 
-
-// Initialize form variables using POST data if available
 $customer_id = $_POST['customer_id'] ?? '';
 $car_id = $_POST['car_id'] ?? '';
 $employee_id = $_POST['employee_id'] ?? '';
