@@ -8,6 +8,7 @@ if (!isset($conn) || $conn->connect_error) {
 $report_data = [
     'total_completed_rentals' => 'N/A',
     'total_revenue' => 'N/A',
+    'avg_rental_cost' => 'N/A',
     'active_rentals' => 'N/A',
     'available_cars' => 'N/A',
     'total_customers' => 'N/A',
@@ -23,6 +24,11 @@ else { $query_errors[] = "Completed rentals query failed."; }
 $sql_revenue = "SELECT SUM(total_cost) AS total FROM rental_agreements WHERE status = 'completed'";
 $result = $conn->query($sql_revenue);
 if ($result) { $report_data['total_revenue'] = $result->fetch_assoc()['total'] ?? 0.00; $result->free(); }
+else { $query_errors[] = "Revenue query failed."; }
+
+$sql_avg_rental_cost = "SELECT AVG(total_cost) FROM rental_agreements WHERE status = 'completed'";
+$result = $conn->query($sql_avg_rental_cost);
+if ($result) { $report_data['avg_rental_cost'] = $result->fetch_assoc()['total'] ?? 0.00; $result->free(); }
 else { $query_errors[] = "Revenue query failed."; }
 
 $sql_active = "SELECT COUNT(*) AS total FROM rental_agreements WHERE status = 'active'";
@@ -66,7 +72,7 @@ $conn->close();
 <body>
 
     <div class="report-container">
-        <h2>Rental Business Summary</h2>
+        <h2>Rentals Summary</h2>
 
         <?php if (!empty($query_errors)): ?>
             <div class="error">Could not generate full report. Errors occurred.</div>
@@ -79,6 +85,10 @@ $conn->close();
         <div class="report-item">
             <span class="report-label">Total Revenue:</span>
             <span class="report-value">$<?php echo is_numeric($report_data['total_revenue']) ? number_format($report_data['total_revenue'], 2) : 'Error'; ?></span>
+        </div>
+        <div class="report-item">
+            <span class="report-label">Average Rental Agreement Cost:</span>
+            <span class="report-value">$<?php echo is_numeric($report_data['avg_rental_cost']) ? number_format($report_data['avg_rental_cost'], 2) : 'Error'; ?></span>
         </div>
         <div class="report-item">
             <span class="report-label">Active Rentals:</span>
